@@ -25,5 +25,44 @@ class TestTicTacToe(unittest.TestCase):
         self.assertIn('position', result)
         self.assertIn('score', result)
 
+    def test_empty_board(self):
+        empty_game = TicTacToe()
+        self.assertFalse(empty_game.game_over())
+        self.assertEqual(empty_game.current_winner, None)
+
+    def test_human_vs_random(self):
+        human_player = HumanPlayer('X')
+        random_player = RandomComputerPlayer('O')
+        game = TicTacToe()
+
+        while not game.game_over():
+            # Human's turn
+            game.make_move(human_player.get_move(game), human_player.letter)
+
+            if game.game_over():
+                break
+
+            # Random Computer's turn
+            game.make_move(random_player.get_move(game), random_player.letter)
+
+        self.assertTrue(game.game_over())
+
+    def test_smart_vs_random(self):
+        smart_player = SmartComputerPlayer('X')
+        random_player = RandomComputerPlayer('O')
+        game = TicTacToe()
+
+        while not game.game_over():
+            # Smart Computer's turn
+            game.make_move(smart_player.get_move(game), smart_player.letter)
+
+            if game.game_over():
+                break
+
+            # Random Computer's turn
+            game.make_move(random_player.get_move(game), random_player.letter)
+
+        self.assertTrue(game.game_over())
+
 if __name__ == '__main__':
     unittest.main()
